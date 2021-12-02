@@ -1,0 +1,23 @@
+- name: deploy laravel
+  connection: ssh
+  gather_facts: false
+  hosts: all
+  vars:
+    repo_folder: /var/www/my_app/
+    live_folder: /var/www/my_app/
+    repo_name: cgennari76/my_app
+
+  tasks:
+    - name: "git" 
+      git:
+        repo: ssh://git@github.com/{{ repo_name }}.git
+        dest: "{{ repo_folder }}"
+        key_file: ~/.ssh/my_app
+        update: yes
+        version: main
+        force: yes
+      register: repo
+
+    - name: "Install Composer dependencies"
+      script: composer install --no-scripts --no-dev
+      when: repo.changed

@@ -1,0 +1,6 @@
+webservers:
+  hosts:
+      server1:
+        ansible_connection: ssh
+        ansible_host: web04
+        ansible_user: chris
